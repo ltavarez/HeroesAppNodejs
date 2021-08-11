@@ -1,7 +1,9 @@
 const Races = require("../models/Races");
 
 exports.GetRacesList = (req, res, next) => {
-  Races.findAll()
+
+  const user = req.user;
+  Races.findAll({where: {userId: user.id}})
     .then((result) => {
       const races = result.map((result) => result.dataValues);
 
@@ -27,8 +29,9 @@ exports.GetCreateRaces = (req, res, next) => {
 
 exports.PostCreateRaces = (req, res, next) => {
   const raceName = req.body.Name;
+  const user = req.user;
 
-  Races.create({ name: raceName })
+  Races.create({ name: raceName,userId: user.id})
     .then((result) => {
       res.redirect("/races");
     })
@@ -67,8 +70,9 @@ exports.GetEditRaces = (req, res, next) => {
 exports.PostEditRaces = (req, res, next) => {
   const raceName = req.body.Name; 
   const raceId = req.body.raceId;
+  const user = req.user;
 
-  Races.update({ name: raceName }, { where: { id: raceId } })
+  Races.update({ name: raceName,userId: user.id  }, { where: { id: raceId } })
     .then((result) => {
       return res.redirect("/races");
     })

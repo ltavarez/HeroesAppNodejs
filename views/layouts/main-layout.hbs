@@ -4,13 +4,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/assets/css/bootstrap/bootstrap.min.css">
-     <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+     {{#if loginCSS}}
+
+      <link rel="stylesheet" href="/assets/css/login.css">
+
+     {{/if}}
     <title>{{pageTitle}}</title>
   </head>
 
   <body>
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+
+{{#if loginActive}}
+
+{{else}}
+   <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">Heroes</a>
         <button
@@ -29,17 +39,61 @@
             <li class="nav-item">
               <a class="nav-link {{#if homeActive}}active{{/if}}" aria-current="page" href="/">Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link {{#if racesActive}}active{{/if}}" href="/races">Races</a>
-            </li>
+             {{#if isAuthenticated}}
+                <li class="nav-item">
+                  <a class="nav-link {{#if racesActive}}active{{/if}}" href="/races">Races</a>
+                </li>
+            {{/if}}
+          </ul>
+
+          <div class="d-flex">
+
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+
+             {{#if isAuthenticated}}
+
+              <li class="nav-item">
+               <form action="/logout" method="POST">                 
+                  <button class="btn btn-danger" type="submit">Logout</button>
+                </form>
+              </li>
+
+            {{else}}
+               <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="/login">Login</a>
+                </li>
+
+               <li class="nav-item">
+                  <a class="nav-link {{#if signupActive}}active{{/if}}" aria-current="page" href="/signup">Signup</a>
+                </li>
+
+           {{/if}}
+            
         
           </ul>
+         
+          </div>
 
         </div>
       </div>
     </nav>
+{{/if}} 
+ 
 
     <main class="container">
+
+         {{#if hasErrorMessages}} 
+
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul>
+          {{#each errorMessages}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>  
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>   
+    
+    {{/if}}
 
       {{{body}}}
 
