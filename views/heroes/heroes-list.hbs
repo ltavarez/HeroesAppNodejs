@@ -37,9 +37,9 @@
                 class="btn btn-warning"
               >Editar</a>
 
-              <form id="form-delete" class="form-inline" action="/delete-heroes" method="post">
+              <form class="form-inline form-delete" action="/delete-heroes" method="post">
                 <input type="hidden" name="heroesId" value="{{hero.id}}" />
-                <button type="submit" id="delete-heroes" class="btn btn-danger">Eliminar</button>
+                <button type="submit" class="btn btn-danger delete-heroes">Eliminar</button>
 
               </form>
               {{/if}}
